@@ -67,14 +67,6 @@ public class DetailsScreenActivity extends BaseActivity {
                     this.textViewTitle.setText(response.title);
                     this.textViewYear.setText(response.releaseDate);
                     this.textViewLikes.setText(TextUtils.join(", ", response.genres));
-//                    Movie movie = response;
-//                        movie.genres = new ArrayList<>();
-//                        for (Genre genre : Cache.getGenres()) {
-//                            if (movie.genreIds.contains(genre.id)) {
-//                                movie.genres.add(genre);
-//                            }
-//                        }
-
                     this.textViewOverview.setText(response.overview);
                     String posterPath = response.posterPath;
                     if (TextUtils.isEmpty(posterPath) == false) {
@@ -91,5 +83,10 @@ public class DetailsScreenActivity extends BaseActivity {
                                 .into(imageMovieBackground);
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
