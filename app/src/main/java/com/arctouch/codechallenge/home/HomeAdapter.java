@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.home;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,6 +19,15 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+    private static final int ITEM = 0;
+    private static final int LOADING = 1;
+    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w150";
+
+    private Context context;
+
+    private boolean isLoadingAdded = false;
+
+
 
     private List<Movie> movies;
 
@@ -26,6 +36,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+
 
         private final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
 
@@ -44,7 +56,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         public void bind(Movie movie) {
             titleTextView.setText(movie.title);
-            genresTextView.setText(TextUtils.join(", ", movie.genres));
+            if (movie.genres != null){
+                genresTextView.setText(TextUtils.join(", ", movie.genres));
+            } else {
+                genresTextView.setText("Não informado");
+            }
+
             releaseDateTextView.setText(movie.releaseDate);
 
             String posterPath = movie.posterPath;
@@ -57,11 +74,39 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
     }
 
+    protected class LoadingVH extends RecyclerView.ViewHolder {
+
+        public LoadingVH(View itemView) {
+            super(itemView);
+        }
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
-        return new ViewHolder(view);
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
+
+        switch (viewType) {
+            case ITEM:
+                viewHolder = getViewHolder(parent, inflater);
+                break;
+            case LOADING:
+                View v2 = inflater.inflate(R.layout.item_progress, parent, false);
+                viewHolder = new LoadingVH(v2);
+                break;
+        }
+
+        return (ViewHolder) viewHolder;
+    }
+
+    @NonNull
+    private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
+        RecyclerView.ViewHolder viewHolder;
+        View v1 = inflater.inflate(R.layout.movie_item, parent, false);
+        viewHolder = new ViewHolder(v1);
+        return viewHolder;
     }
 
     @Override
@@ -74,5 +119,65 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.bind(movies.get(position));
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (position == this.movies.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+    }
+
+//   Helpers
+//   _________________________________________________________________________________________________
+
+
+    public void add(Movie r) {
+        this.movies.add(r);
+        notifyItemInserted(this.movies.size() - 1);
+    }
+
+    public void addAll(List<Movie> moveResults) {
+        for (Movie result : moveResults) {
+            add(result);
+        }
+    }
+
+    public void remove(Movie r) {
+        int position = this.movies.indexOf(r);
+        if (position > -1) {
+            this.movies.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void clear() {
+        isLoadingAdded = false;
+        while (getItemCount() > 0) {
+            remove(getItem(0));
+        }
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+
+    public void addLoadingFooter() {
+        isLoadingAdded = true;
+        add(new Movie());
+    }
+
+    public void removeLoadingFooter() {
+        isLoadingAdded = false;
+
+        int position = this.movies.size() - 1;
+        Movie result = getItem(position);
+
+        if (result != null) {
+            this.movies.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public Movie getItem(int position) {
+        return this.movies.get(position);
+    }
 
 }
