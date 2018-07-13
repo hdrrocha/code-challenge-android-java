@@ -86,12 +86,14 @@ public class HomeActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Movie movie = listMovie.get(position);
+                                Movie movie = new Movie();
+                                movie =  listMovie.get(position);
                                 Toast.makeText(getApplicationContext(), "item precionado" + movie.title.toString(), Toast.LENGTH_LONG).show();
                                 Context context = view.getContext();
-                                Intent intent = new Intent(context, DetailsScreenActivity.class);
-                                intent.putExtra("movie_selected", movie);
+                                Intent intent = new Intent(getApplicationContext(), DetailsScreenActivity.class);
+                                intent.putExtra("serialize_data",  String.valueOf(movie.id));
                                 startActivity(intent);
+
                             }
 
                             @Override
