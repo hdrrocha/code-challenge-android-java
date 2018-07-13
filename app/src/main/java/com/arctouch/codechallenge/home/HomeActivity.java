@@ -3,6 +3,7 @@ package com.arctouch.codechallenge.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.arctouch.codechallenge.model.Genre;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,8 @@ public class HomeActivity extends BaseActivity {
                                 Toast.makeText(getApplicationContext(), "item precionado" + movie.title.toString(), Toast.LENGTH_LONG).show();
                                 Context context = view.getContext();
                                 Intent intent = new Intent(context, DetailsScreenActivity.class);
-                                context.startActivity(intent);
+                                intent.putExtra("movie_selected", (Parcelable) listMovie.get(position));
+                                startActivity(intent);
                             }
 
                             @Override
