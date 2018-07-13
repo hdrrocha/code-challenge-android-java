@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,16 +26,30 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class HomeActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private List<Movie> listMovie = new ArrayList<>();
+
+//    protected TmdbApi api = new Retrofit.Builder()
+//            .baseUrl(TmdbApi.URL)
+//            .client(new OkHttpClient.Builder().build())
+//            .addConverterFactory(MoshiConverterFactory.create())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .build()
+//            .create(TmdbApi.class);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
 
         this.recyclerView = findViewById(R.id.recyclerView);
         this.progressBar = findViewById(R.id.progressBar);
