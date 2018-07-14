@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
+import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -34,8 +36,9 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private List<Movie> movies;
 
-    public HomeAdapter(List<Movie> movies) {
-        this.movies = movies;
+    public HomeAdapter(Context context) {
+        this.context = context;
+        this.movies = new ArrayList<>();
     }
 
     public List<Movie> getMovies() {
@@ -131,7 +134,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         Movie result = this.movies.get(position); // Movie
-
+        final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
         switch (getItemViewType(position)) {
             case ITEM:
                 final MovieVH movieVH = (MovieVH) holder;
@@ -148,7 +151,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Glide.with(context)
                             .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
                             .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-                            .into(posterImageView);
+                            .into(movieVH.posterImageView);
                 }
 //                /**
 //                 * Using Glide to handle image loading.

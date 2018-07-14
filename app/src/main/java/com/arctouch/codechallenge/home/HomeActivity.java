@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,12 +44,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    LinearLayoutManager linearLayoutManager;
+
+    private static final String TAG = "HomeActivity";
+
     private RecyclerView recyclerView;
     private  HomeAdapter homeAdapter;
     private ProgressBar progressBar;
     private List<Movie> listMovie = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
 
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
@@ -76,9 +79,14 @@ public class HomeActivity extends AppCompatActivity {
 
         this.recyclerView = findViewById(R.id.recyclerView);
         this.progressBar = findViewById(R.id.progressBar);
+
+        homeAdapter = new HomeAdapter(this);
+
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        this.recyclerView.setAdapter(homeAdapter);
 
         this.recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
@@ -133,9 +141,9 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
 
-                    homeAdapter = new HomeAdapter(response.results);
-                    recyclerView.setAdapter(homeAdapter);
+//                    recyclerView.setAdapter(homeAdapter);
                     progressBar.setVisibility(View.GONE);
+                    homeAdapter.addAll(response.results);
 
                     if (currentPage <= TOTAL_PAGES) homeAdapter.addLoadingFooter();
                     else isLastPage = true;
