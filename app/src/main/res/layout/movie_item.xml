@@ -4,14 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    android:elevation="3dp"
+   android:elevation="1dp"
     app:cardCornerRadius="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backgroundSpotlightColor">
+        android:layout_height="match_parent">
+
+        <com.santalu.diagonalimageview.DiagonalImageView
+            android:id="@+id/posterImageView"
+            android:layout_width="110dp"
+            android:layout_height="91dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_launcher_background"
+            app:di_borderColor="#FF5722"
+            app:di_borderEnabled="false"
+            app:di_direction="bottom"
+            app:di_overlap="56dp"
+            app:di_position="right" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -23,47 +33,43 @@
             android:paddingTop="10dp"
             android:text="Movie Title"
             android:textColor="@color/textColor"
-            android:textSize="18sp"
+            android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/posterImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/genresTextView"
-            android:layout_width="265dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
-            android:text="Movie Genere"
-            android:textColor="@color/textColor"
+            android:text="Movie Genres"
+            android:textColor="@color/textColorSecundary"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/posterImageView"
             app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-        <ImageView
-            android:id="@+id/posterImageView"
-            android:layout_width="128dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_image_placeholder"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/releaseDateTextView"
-            android:layout_width="191dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_width="54dp"
+            android:layout_height="21dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:text="19/12/1997"
-            android:textColor="@color/textColor"
-            app:layout_constraintStart_toEndOf="@+id/posterImageView"
-            app:layout_constraintTop_toBottomOf="@+id/genresTextView" />
+            android:paddingTop="2dp"
+            android:text="1997"
+            android:textColor="@color/textColorSecundary"
+            android:textSize="12dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/titleTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

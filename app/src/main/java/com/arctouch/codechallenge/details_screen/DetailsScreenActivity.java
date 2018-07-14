@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.details_screen;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -26,7 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class DetailsScreenActivity extends BaseActivity {
+public class DetailsScreenActivity extends AppCompatActivity {
 
     private ImageView imageMovieBackground;
     private ImageView imageMovie;
@@ -35,6 +36,7 @@ public class DetailsScreenActivity extends BaseActivity {
     private TextView textViewLikes;
     private TextView textViewOverview;
     private final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
+
     TmdbApi api = new Retrofit.Builder()
             .baseUrl(TmdbApi.URL)
             .client(new OkHttpClient.Builder().build())

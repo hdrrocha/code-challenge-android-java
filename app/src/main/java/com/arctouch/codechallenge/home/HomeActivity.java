@@ -88,6 +88,8 @@ public class HomeActivity extends AppCompatActivity {
 
         this.recyclerView.setAdapter(homeAdapter);
 
+        loadFirstPage();
+
         this.recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -119,7 +121,36 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        loadFirstPage();
+        this.recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        this.recyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Movie movie = new Movie();
+                                movie =  listMovie.get(position);
+                                Toast.makeText(getApplicationContext(), "item precionado" + movie.title.toString(), Toast.LENGTH_LONG).show();
+                                Context context = view.getContext();
+                                Intent intent = new Intent(getApplicationContext(), DetailsScreenActivity.class);
+                                intent.putExtra("serialize_data",  String.valueOf(movie.id));
+                                startActivity(intent);
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+
+        );
 
 
     }
@@ -177,38 +208,16 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    private  void setAdapter(){
-        this.recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        getApplicationContext(),
-                        this.recyclerView,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Movie movie = new Movie();
-                                movie =  listMovie.get(position);
-                                Toast.makeText(getApplicationContext(), "item precionado" + movie.title.toString(), Toast.LENGTH_LONG).show();
-                                Context context = view.getContext();
-                                Intent intent = new Intent(getApplicationContext(), DetailsScreenActivity.class);
-                                intent.putExtra("serialize_data",  String.valueOf(movie.id));
-                                startActivity(intent);
-
-                            }
-
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
-
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
-                        }
-                )
-
-        );
+    @Override
+    protected void onResume() {
+        super.onResume();
+        api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    Cache.setGenres(response.genres);
+//                    startActivity(new Intent(this, HomeActivity.class));
+//                    finish();
+                });
     }
-
-
 }
