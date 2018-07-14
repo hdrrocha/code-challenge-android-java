@@ -25,6 +25,8 @@ import com.arctouch.codechallenge.data.Cache;
 import com.arctouch.codechallenge.details_screen.DetailsScreenActivity;
 import com.arctouch.codechallenge.model.Genre;
 import com.arctouch.codechallenge.model.Movie;
+import com.arctouch.codechallenge.mvp.HomePresenter;
+import com.arctouch.codechallenge.mvp.HomeView;
 import com.arctouch.codechallenge.util.PaginationScrollListener;
 import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 
@@ -42,82 +44,81 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements HomeView{
+//    private List<Movie> listMovie = new ArrayList<>();
 
+    HomePresenter homePresenter;
 
-    private static final String TAG = "HomeActivity";
-
-    private RecyclerView recyclerView;
-    private  HomeAdapter homeAdapter;
-    private ProgressBar progressBar;
-    private List<Movie> listMovie = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
 
-    private static final int PAGE_START = 1;
-    private boolean isLoading = false;
-    private boolean isLastPage = false;
-    // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
-    private int TOTAL_PAGES = 5;
-    private int currentPage = PAGE_START;
+    private RecyclerView recyclerView;
+    private HomeAdapter homeAdapter;
+    private ProgressBar progressBar;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        homePresenter.searchGenres();
+    }
 
-
-
-    TmdbApi api = new Retrofit.Builder()
-            .baseUrl(TmdbApi.URL)
-            .client(new OkHttpClient.Builder().build())
-            .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(TmdbApi.class);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        homeAdapter = new HomeAdapter(getApplicationContext());
+        mapComponents();
+        mappingComponentsActions();
+        if(homeAdapter == null){
+            homeAdapter = new HomeAdapter(this);
+            this.recyclerView.setAdapter(homeAdapter);
+        }
+        if(homePresenter == null){
+            homePresenter = new HomePresenter();
+            homePresenter.init(this);
+        }else{
+            homePresenter.refresh(this);
+        }
+    }
 
+    public void mapComponents() {
 
         this.recyclerView = findViewById(R.id.recyclerView);
         this.progressBar = findViewById(R.id.progressBar);
 
-        homeAdapter = new HomeAdapter(this);
-
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         this.recyclerView.setAdapter(homeAdapter);
 
-        loadFirstPage();
+    }
 
+    public void mappingComponentsActions() {
         this.recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
-                isLoading = true;
-                currentPage += 1;
-
-                // mocking network delay for API call
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadNextPage();
+                        homePresenter.loadNextPage();
                     }
                 }, 1000);
             }
 
             @Override
             public int getTotalPageCount() {
-                return TOTAL_PAGES;
+                return homePresenter.getTotalPages();
             }
 
             @Override
             public boolean isLastPage() {
-                return isLastPage;
+                return homePresenter.isLastPage();
             }
 
             @Override
             public boolean isLoading() {
-                return isLoading;
+                return homePresenter.isLoading();
             }
         });
 
@@ -129,12 +130,7 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Movie movie = new Movie();
-                                movie =  listMovie.get(position);
-                                Toast.makeText(getApplicationContext(), "item precionado" + movie.title.toString(), Toast.LENGTH_LONG).show();
-                                Context context = view.getContext();
-                                Intent intent = new Intent(getApplicationContext(), DetailsScreenActivity.class);
-                                intent.putExtra("serialize_data",  String.valueOf(movie.id));
-                                startActivity(intent);
+                                onMovieClick(movie);
 
                             }
 
@@ -151,73 +147,33 @@ public class HomeActivity extends AppCompatActivity {
                 )
 
         );
-
-
-    }
-
-    private void loadFirstPage() {
-        Log.d(TAG, "loadFirstPage: ");
-
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, (long) currentPage, TmdbApi.DEFAULT_REGION)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    listMovie.addAll(response.results);
-                    for (Movie movie : response.results) {
-                        movie.genres = new ArrayList<>();
-                        for (Genre genre : Cache.getGenres()) {
-                            if (movie.genreIds.contains(genre.id)) {
-                                movie.genres.add(genre);
-                            }
-                        }
-                    }
-
-//                    recyclerView.setAdapter(homeAdapter);
-                    progressBar.setVisibility(View.GONE);
-                    homeAdapter.addAll(response.results);
-
-                    if (currentPage <= TOTAL_PAGES) homeAdapter.addLoadingFooter();
-                    else isLastPage = true;
-                });
-
-    }
-
-    private void loadNextPage() {
-        Log.d(TAG, "loadNextPage: " + currentPage);
-
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, (long) currentPage, TmdbApi.DEFAULT_REGION)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    listMovie.addAll(response.results);
-                    for (Movie movie : response.results) {
-                        movie.genres = new ArrayList<>();
-                        for (Genre genre : Cache.getGenres()) {
-                            if (movie.genreIds.contains(genre.id)) {
-                                movie.genres.add(genre);
-                            }
-                        }
-                    }
-                    homeAdapter.removeLoadingFooter();
-                    isLoading = false;
-                    homeAdapter.addAll(response.results);
-                    progressBar.setVisibility(View.GONE);
-
-                    if (currentPage != TOTAL_PAGES) homeAdapter.addLoadingFooter();
-                    else isLastPage = true;
-                });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    Cache.setGenres(response.genres);
-//                    startActivity(new Intent(this, HomeActivity.class));
-//                    finish();
-                });
+    public void onMovieClick(Movie mMovie) {
+        Context context = getApplicationContext();
+        Intent intent = new Intent(getApplicationContext(), DetailsScreenActivity.class);
+        intent.putExtra("serialize_data", String.valueOf(mMovie.id));
+        startActivity(intent);
+    }
+
+    @Override
+    public void showLoading(boolean aShow) {
+        this.progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void homeAdapterLoadingFooter(boolean aShow) {
+        if (aShow == true) {
+            homeAdapter.addLoadingFooter();
+        }else{
+            homeAdapter.removeLoadingFooter();
+        }
+    }
+
+    @Override
+    public void loadMovies(List<Movie> mList) {
+        homeAdapter.addAll(mList);
+        homeAdapter.notifyDataSetChanged();
     }
 }

@@ -21,16 +21,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w150";
-
     private Context context;
-
     private boolean isLoadingAdded = false;
-
-
 
     private List<Movie> movies;
 
@@ -40,7 +35,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public List<Movie> getMovies() {
-        return  this.movies;
+        return this.movies;
     }
 
     public void setMovies(List<Movie> movies) {
@@ -92,11 +87,20 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 movieViewHolder.titleTextView.setText(result.title);
 
+                if (result.releaseDate != null){
+                    movieViewHolder.releaseDateTextView.setText(
+                            result.releaseDate.substring(0, 4)
+                    );
+                } else {
+                    movieViewHolder.releaseDateTextView.setText("----");
+                }
 
-                movieViewHolder.releaseDateTextView.setText(
-                        result.releaseDate.substring(0, 4)
-                );
-                movieViewHolder.genresTextView.setText(TextUtils.join(", ", result.genres));
+                if(result.genres != null) {
+                    movieViewHolder.genresTextView.setText(TextUtils.join(", ", result.genres));
+                } else {
+                    movieViewHolder.genresTextView.setText("Não informado");
+                }
+
                 String posterPath = result.posterPath;
                 if (TextUtils.isEmpty(posterPath) == false) {
                     Glide.with(context)
@@ -121,7 +125,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-
     @Override
     public int getItemCount() {
         return movies.size();
@@ -133,7 +136,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 //   Helpers
-
     public void add(Movie r) {
         this.movies.add(r);
         notifyItemInserted(this.movies.size() - 1);
@@ -163,7 +165,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
-
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
@@ -203,12 +204,8 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             genresTextView = itemView.findViewById(R.id.genresTextView);
             releaseDateTextView = itemView.findViewById(R.id.releaseDateTextView);
             posterImageView = itemView.findViewById(R.id.posterImageView);
-
-
             mProgress = (ProgressBar) itemView.findViewById(R.id.movie_progress);
         }
     }
-
-
 
 }
