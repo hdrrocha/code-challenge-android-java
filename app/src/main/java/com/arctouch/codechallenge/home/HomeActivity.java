@@ -2,47 +2,26 @@ package com.arctouch.codechallenge.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.arctouch.codechallenge.R;
-import com.arctouch.codechallenge.api.TmdbApi;
-import com.arctouch.codechallenge.base.BaseActivity;
-import com.arctouch.codechallenge.data.Cache;
 import com.arctouch.codechallenge.details_screen.DetailsScreenActivity;
-import com.arctouch.codechallenge.model.Genre;
 import com.arctouch.codechallenge.model.Movie;
-import com.arctouch.codechallenge.mvp.HomePresenter;
-import com.arctouch.codechallenge.mvp.HomeView;
+import com.arctouch.codechallenge.mvp.home.HomePresenter;
+import com.arctouch.codechallenge.mvp.home.HomeView;
 import com.arctouch.codechallenge.util.PaginationScrollListener;
 import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class HomeActivity extends AppCompatActivity implements HomeView{
 //    private List<Movie> listMovie = new ArrayList<>();
@@ -130,6 +109,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
                             @Override
                             public void onItemClick(View view, int position) {
                                 Movie movie = new Movie();
+                                movie = homeAdapter.getMoviePosition(position);
                                 onMovieClick(movie);
 
                             }
