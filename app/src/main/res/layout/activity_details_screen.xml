@@ -7,11 +7,12 @@
     tools:context=".details_screen.DetailsScreenActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F8F8F8"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="190dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -40,7 +41,8 @@
                 android:layout_height="155dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="100dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,14 +51,14 @@
 
             <TextView
                 android:id="@+id/textViewTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_width="204dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="208dp"
-                android:text="Clube da Luta"
-                android:textColor="@color/textColor"
-                android:textSize="18sp"
+                android:text="Title Movie"
+                android:textColor="#5E5E5E"
+                android:textSize="22dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -68,40 +70,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="(2000)"
                 android:textColor="@color/textColor"
                 app:layout_constraintStart_toEndOf="@+id/imageMovie"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
             <TextView
-                android:id="@+id/textViewLikes"
+                android:id="@+id/textViewGenre"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="9dp"
                 android:text="Genre, genere"
+                android:textColor="#AAAAAA"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textViewYear"
-                app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewYear" />
+
+            <TextView
+                android:id="@+id/textViewOverview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="7dp"
+                android:padding="10dp"
+                android:text="Noventa e Sete anos antes, um apocalipse nuclear dizimou o planeta Terra e destruiu a civilização. Os únicos sobreviventes foram os 400 habitantes de 12 estações espaciais que estavam em órbita durante o acontecimento. Depois de tantos anos, a população das aeronaves aumentou e os recursos estão quase acabando, o que pode significar o fim dos seres humanos. Por isso, os comandantes enviam para a Terra cem jovens prisioneiros, na tentativa de testar a situação no nosso planeta e descobrir se existe a possibilidade de retorno ao local. Além de lidarem com as próprias diferenças, o grupo precisa se unir para enfrentar os perigos que os aguardam por causa da radiação. Para complicar, tudo indica que eles não estão sozinhos."
+                android:textAlignment="center"
+                android:textColor="#A5A5A5"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewGenre"
+                app:layout_constraintVertical_bias="1.0" />
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
 
-    <TextView
-        android:id="@+id/textViewOverview"
-        android:layout_width="wrap_content"
-        android:layout_height="214dp"
-        android:padding="10dp"
-        android:text="Noventa e Sete anos antes, um apocalipse nuclear dizimou o planeta Terra e destruiu a civilização. Os únicos sobreviventes foram os 400 habitantes de 12 estações espaciais que estavam em órbita durante o acontecimento. Depois de tantos anos, a população das aeronaves aumentou e os recursos estão quase acabando, o que pode significar o fim dos seres humanos. Por isso, os comandantes enviam para a Terra cem jovens prisioneiros, na tentativa de testar a situação no nosso planeta e descobrir se existe a possibilidade de retorno ao local. Além de lidarem com as próprias diferenças, o grupo precisa se unir para enfrentar os perigos que os aguardam por causa da radiação. Para complicar, tudo indica que eles não estão sozinhos."
-        android:textAlignment="inherit"
-        android:textColor="@color/textColorSecundary"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
