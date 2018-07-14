@@ -3,7 +3,7 @@ package com.arctouch.codechallenge.mvp.details;
 import com.arctouch.codechallenge.model.Movie;
 
 
-public class DetailsScreenPresenter  implements DetailsScreenView {
+public class DetailsScreenPresenter implements DetailsScreenView {
     private DetailsScreenRest movieRest;
 
     private DetailsScreenView mRootDetailsCreenView;

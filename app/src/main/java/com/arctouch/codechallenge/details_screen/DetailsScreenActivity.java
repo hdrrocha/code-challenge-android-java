@@ -37,7 +37,7 @@ public class DetailsScreenActivity extends AppCompatActivity  implements Details
             detailsScreenPresenter.init(this);
         }
         Bundle data = getIntent().getExtras();
-        String movieID =  data.getString("serialize_data");
+        String movieID = data.getString("serialize_data");
         detailsScreenPresenter.searchGenres();
         detailsScreenPresenter.searchMovie(Long.valueOf(movieID));
 
@@ -45,7 +45,7 @@ public class DetailsScreenActivity extends AppCompatActivity  implements Details
 
     public void mapComponents() {
         imageMovieBackground = (ImageView) findViewById(R.id.imageMovieBackground);
-        imageMovie  = (ImageView) findViewById(R.id.imageMovie);
+        imageMovie = (ImageView) findViewById(R.id.imageMovie);
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewYear = (TextView) findViewById(R.id.textViewYear);
         textViewLikes = (TextView) findViewById(R.id.textViewGenre);

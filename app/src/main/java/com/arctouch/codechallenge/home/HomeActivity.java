@@ -24,8 +24,6 @@ import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements HomeView{
-//    private List<Movie> listMovie = new ArrayList<>();
-
     HomePresenter homePresenter;
 
     private LinearLayoutManager linearLayoutManager;
