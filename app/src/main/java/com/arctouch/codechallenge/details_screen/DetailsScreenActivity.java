@@ -3,22 +3,15 @@ package com.arctouch.codechallenge.details_screen;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.api.TmdbApi;
-import com.arctouch.codechallenge.base.BaseActivity;
 import com.arctouch.codechallenge.data.Cache;
-import com.arctouch.codechallenge.model.Genre;
-import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -54,7 +47,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         imageMovie  = (ImageView) findViewById(R.id.imageMovie);
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewYear = (TextView) findViewById(R.id.textViewYear);
-        textViewLikes = (TextView) findViewById(R.id.textViewLikes);
+        textViewLikes = (TextView) findViewById(R.id.textViewGenre);
         textViewOverview = (TextView) findViewById(R.id.textViewOverview);
 
         Bundle data = getIntent().getExtras();
