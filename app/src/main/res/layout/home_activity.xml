@@ -9,9 +9,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:clipToPadding="false"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:itemCount="10"
         tools:listitem="@layout/movie_item" />
