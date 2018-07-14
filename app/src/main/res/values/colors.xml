@@ -3,7 +3,8 @@
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#1B1B1B</color>
     <color name="colorAccent">@color/colorPrimary</color>
-    <color name="textColor">#fff</color>
+    <color name="textColor">#091c24</color>
+    <color name="textColorSecundary">#5e5e5e</color>
     <color name="backgroundGeneralColor">#000</color>
     <color name="backgroundHomeColor">#f4f4f4</color>
     <color name="backgroundSpotlightColor">#2e2f35</color>
