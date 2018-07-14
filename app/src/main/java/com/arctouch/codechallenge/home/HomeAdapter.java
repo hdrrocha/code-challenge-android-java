@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,10 +16,7 @@ import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,46 +47,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.movies = movies;
     }
 
-
-//    public static class ViewHolder extends RecyclerView.ViewHolder {
-//
-//
-//
-//        private final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
-//
-//        private final TextView titleTextView;
-//        private final TextView genresTextView;
-//        private final TextView releaseDateTextView;
-//        private final ImageView posterImageView;
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//            titleTextView = itemView.findViewById(R.id.titleTextView);
-//            genresTextView = itemView.findViewById(R.id.genresTextView);
-//            releaseDateTextView = itemView.findViewById(R.id.releaseDateTextView);
-//            posterImageView = itemView.findViewById(R.id.posterImageView);
-//        }
-//
-//        public void bind(Movie movie) {
-//            titleTextView.setText(movie.title);
-//            if (movie.genres != null){
-//                genresTextView.setText(TextUtils.join(", ", movie.genres));
-//            } else {
-//                genresTextView.setText("Não informado");
-//            }
-//
-//            releaseDateTextView.setText(movie.releaseDate);
-//
-//            String posterPath = movie.posterPath;
-//            if (TextUtils.isEmpty(posterPath) == false) {
-//                Glide.with(itemView)
-//                        .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
-//                        .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-//                        .into(posterImageView);
-//            }
-//        }
-//    }
-
     protected class LoadingVH extends RecyclerView.ViewHolder {
 
         public LoadingVH(View itemView) {
@@ -100,7 +58,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
 
         switch (viewType) {
             case ITEM:
@@ -118,73 +75,47 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
-        View v1 = inflater.inflate(R.layout.movie_item, parent, false);
-        viewHolder = new MovieVH(v1);
+        View view = inflater.inflate(R.layout.movie_item, parent, false);
+        viewHolder = new MovieViewHolder(view);
         return viewHolder;
     }
 
-
-
-//    @Override
-//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.bind(movies.get(position));
-//    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Movie result = this.movies.get(position);
 
-        Movie result = this.movies.get(position); // Movie
         final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
+
         switch (getItemViewType(position)) {
             case ITEM:
-                final MovieVH movieVH = (MovieVH) holder;
+                final MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
 
-                movieVH.titleTextView.setText(result.title);
+                movieViewHolder.titleTextView.setText(result.title);
 
 
-                movieVH.releaseDateTextView.setText(
-                        result.releaseDate.substring(0, 4)  // we want the year only
+                movieViewHolder.releaseDateTextView.setText(
+                        result.releaseDate.substring(0, 4)
                 );
-                movieVH.genresTextView.setText(TextUtils.join(", ", result.genres));
+                movieViewHolder.genresTextView.setText(TextUtils.join(", ", result.genres));
                 String posterPath = result.posterPath;
                 if (TextUtils.isEmpty(posterPath) == false) {
                     Glide.with(context)
                             .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
                             .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-                            .into(movieVH.posterImageView);
+                            .into(movieViewHolder.posterImageView);
                 }
-//                /**
-//                 * Using Glide to handle image loading.
-//                 * Learn more about Glide here:
-//                 *
-//                 */
-//                Glide
-//                        .with(context)
-//                        .load(BASE_URL_IMG + result.posterPath)
-//                        .listener(new RequestListener<String, GlideDrawable>() {
-//                            @Override
-//                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//
-//                                movieVH.mProgress.setVisibility(View.GONE);
-//                                return false;
-//                            }
-//
-//                            @Override
-//                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                                // image ready, hide progress now
-//                                movieVH.mProgress.setVisibility(View.GONE);
-//                                return false;   // return false if you want Glide to handle everything else.
-//                            }
-//                        })
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL)   // cache both original & resized image
-//                        .centerCrop()
-//                        .crossFade()
-//                        .into(movieVH.posterImageView);
 
+                if(position %2 == 1)
+                {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#EBEBEB"));
+                }
+                else
+                {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
+                }
                 break;
 
             case LOADING:
-//                Do nothing
                 break;
         }
 
@@ -202,8 +133,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 //   Helpers
-//   _________________________________________________________________________________________________
-
 
     public void add(Movie r) {
         this.movies.add(r);
@@ -257,22 +186,17 @@ public class HomeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return this.movies.get(position);
     }
 
-     /*
-   View Holders
-   _________________________________________________________________________________________________
-    */
 
-    /**
-     * Main list's content ViewHolder
-     */
-    protected class MovieVH extends RecyclerView.ViewHolder {
+//   View Holders
+
+    protected class MovieViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleTextView;
         private final TextView genresTextView;
         private final TextView releaseDateTextView;
         private final ImageView posterImageView;
         private ProgressBar mProgress;
 
-        public MovieVH(View itemView) {
+        public MovieViewHolder(View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.titleTextView);
