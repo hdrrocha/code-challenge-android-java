@@ -38,6 +38,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return this.movies;
     }
 
+    public Movie getMoviePosition(int position)  {
+        return  this.movies.get(position);
+    }
+
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
