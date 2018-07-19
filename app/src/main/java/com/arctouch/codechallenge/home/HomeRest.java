@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.mvp.home;
+package com.arctouch.codechallenge.home;
 
 import com.arctouch.codechallenge.api.TmdbApi;
 import com.arctouch.codechallenge.data.Cache;
@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class MovieRest {
+public class HomeRest {
     private final HomePresenter mHomePresenter;
     private List<Movie> listMovie = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class MovieRest {
             .build()
             .create(TmdbApi.class);
 
-    public MovieRest(HomePresenter aHomePresenter) {
+    public HomeRest(HomePresenter aHomePresenter) {
         mHomePresenter = aHomePresenter;
     }
 

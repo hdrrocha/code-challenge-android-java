@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".details_screen.DetailsScreenActivity"></activity>
+        <activity android:name=".details.DetailsScreenActivity"></activity>
     </application>
 
 </manifest>

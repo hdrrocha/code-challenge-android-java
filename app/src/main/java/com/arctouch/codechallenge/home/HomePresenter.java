@@ -1,10 +1,10 @@
-package com.arctouch.codechallenge.mvp.home;
+package com.arctouch.codechallenge.home;
 
 import com.arctouch.codechallenge.model.Movie;
 import java.util.List;
 
 public class HomePresenter implements HomeView{
-    private MovieRest movieRest;
+    private HomeRest homeRest;
 
     private HomeView mRootHomeView;
 
@@ -17,18 +17,18 @@ public class HomePresenter implements HomeView{
 
     public void init(HomeView aHomeView) {
         mRootHomeView = aHomeView;
-        movieRest = new MovieRest(this);
+        homeRest = new HomeRest(this);
     }
 
     public void refresh(HomeView aHomeView) {
         mRootHomeView = aHomeView;
     }
     public void searchMovies(int currentPage) {
-        movieRest.callMovies(currentPage);
+        homeRest.callMovies(currentPage);
     }
 
     public void searchGenres() {
-        movieRest.callGenres();
+        homeRest.callGenres();
     }
 
     public void onGenresLoaded() {
@@ -38,7 +38,7 @@ public class HomePresenter implements HomeView{
     public void loadFistPage() {
         isLoading = true;
         currentPage = PAGE_START;
-        movieRest.callMovies(currentPage);
+        homeRest.callMovies(currentPage);
 
     }
 
@@ -49,7 +49,7 @@ public class HomePresenter implements HomeView{
         if (currentPage <= TOTAL_PAGES) {
             mRootHomeView.homeAdapterLoadingFooter(true);
         }
-        movieRest.callMovies(currentPage);
+        homeRest.callMovies(currentPage);
     }
 
     public void returnApi(List<Movie> aMovieList) {
