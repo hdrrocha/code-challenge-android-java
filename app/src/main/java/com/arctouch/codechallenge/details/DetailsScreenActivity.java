@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 public class DetailsScreenActivity extends AppCompatActivity implements DetailsScreenView {
 
     private final MovieImageUrlBuilder mMovieImageUrlBuilder = new MovieImageUrlBuilder();
-    DetailsScreenPresenter mDetailsScreenPresenter;
+    private  DetailsScreenPresenter mDetailsScreenPresenter;
 
     private ImageView imageMovieBackground;
     private ImageView imageMovie;
@@ -23,6 +23,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements DetailsS
     private TextView textViewYear;
     private TextView textViewLikes;
     private TextView textViewOverview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements DetailsS
             mDetailsScreenPresenter = new DetailsScreenPresenter();
             mDetailsScreenPresenter.init(this);
         }
+
         Bundle data = getIntent().getExtras();
         String movieID = data.getString("serialize_data");
         mDetailsScreenPresenter.searchGenres();

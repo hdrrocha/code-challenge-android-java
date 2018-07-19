@@ -2,10 +2,6 @@ package com.arctouch.codechallenge.details;
 
 import com.arctouch.codechallenge.api.TmdbApi;
 import com.arctouch.codechallenge.data.Cache;
-import com.arctouch.codechallenge.model.Movie;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -30,7 +26,7 @@ public class DetailsScreenRest {
         mDetailsScreenPresenter = aDetailsScreenPresenter;
     }
 
-    public void callGenres() {
+    public void searchGenres() {
         api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,7 +35,7 @@ public class DetailsScreenRest {
                 });
     }
 
-    public void callMovie(Long movieID) {
+    public void searchMovie(Long movieID) {
         api.movie(Long.valueOf(movieID),TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
