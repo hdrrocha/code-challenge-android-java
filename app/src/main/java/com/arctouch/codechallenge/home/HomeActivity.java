@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Movie movie = new Movie();
+                                Movie movie;
                                 movie = homeAdapter.getMoviePosition(position);
                                 onMovieClick(movie);
 

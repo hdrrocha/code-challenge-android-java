@@ -1,11 +1,14 @@
 package com.arctouch.codechallenge.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.squareup.moshi.Json;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Movie implements Serializable{
+public class Movie implements Parcelable {
     public int id;
     public String title;
     public String overview;
@@ -18,6 +21,42 @@ public class Movie implements Serializable{
     public String backdropPath;
     @Json(name = "release_date")
     public String releaseDate;
+
+    public Movie(int id, String title, String overview, List<Genre> genres, List<Integer> genreIds, String posterPath, String backdropPath, String releaseDate) {
+        this.id = id;
+        this.title = title;
+        this.overview = overview;
+        this.genres = genres;
+        this.genreIds = genreIds;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.releaseDate = releaseDate;
+    }
+
+    protected Movie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        overview = in.readString();
+        posterPath = in.readString();
+        backdropPath = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    public Movie() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,5 +104,23 @@ public class Movie implements Serializable{
                 ", backdropPath='" + backdropPath + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.overview);
+//        dest.writeTypedArray(this.genres, flags);
+//        dest.writeInt(this.genreIds);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.backdropPath);
+        dest.writeString(this.releaseDate);
     }
 }
