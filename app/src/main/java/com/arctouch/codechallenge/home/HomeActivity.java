@@ -14,10 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 
 import com.arctouch.codechallenge.R;
-import com.arctouch.codechallenge.details_screen.DetailsScreenActivity;
+import com.arctouch.codechallenge.details.DetailsScreenActivity;
 import com.arctouch.codechallenge.model.Movie;
-import com.arctouch.codechallenge.mvp.home.HomePresenter;
-import com.arctouch.codechallenge.mvp.home.HomeView;
 import com.arctouch.codechallenge.util.PaginationScrollListener;
 import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 

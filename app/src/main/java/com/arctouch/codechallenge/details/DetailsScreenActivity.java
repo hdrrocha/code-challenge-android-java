@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.details_screen;
+package com.arctouch.codechallenge.details;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
-import com.arctouch.codechallenge.mvp.details.DetailsScreenPresenter;
-import com.arctouch.codechallenge.mvp.details.DetailsScreenView;
+import com.arctouch.codechallenge.details.DetailsScreenPresenter;
+import com.arctouch.codechallenge.details.DetailsScreenView;
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;

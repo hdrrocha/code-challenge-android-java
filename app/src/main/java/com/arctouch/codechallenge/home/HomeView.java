@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.mvp.home;
+package com.arctouch.codechallenge.home;
 
 import com.arctouch.codechallenge.model.Movie;
 
