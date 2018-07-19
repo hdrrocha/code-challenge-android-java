@@ -22,6 +22,7 @@ import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements HomeView{
+
     HomePresenter mHomePresenter;
 
     private LinearLayoutManager mLinearLayoutManager;

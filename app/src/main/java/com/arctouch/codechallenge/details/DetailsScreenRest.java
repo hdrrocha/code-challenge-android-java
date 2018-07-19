@@ -17,7 +17,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class DetailsScreenRest {
 
     private final DetailsScreenPresenter mDetailsScreenPresenter;
-    private List<Movie> listMovie = new ArrayList<>();
 
     private final TmdbApi api = new Retrofit.Builder()
             .baseUrl(TmdbApi.URL)

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private static final int ITEM = 0;
     private static final int LOADING = 1;
 

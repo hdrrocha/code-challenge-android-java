@@ -8,15 +8,14 @@ import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
-import com.arctouch.codechallenge.details.DetailsScreenPresenter;
-import com.arctouch.codechallenge.details.DetailsScreenView;
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class DetailsScreenActivity extends AppCompatActivity  implements DetailsScreenView {
+public class DetailsScreenActivity extends AppCompatActivity implements DetailsScreenView {
 
-    DetailsScreenPresenter detailsScreenPresenter;
+    private final MovieImageUrlBuilder mMovieImageUrlBuilder = new MovieImageUrlBuilder();
+    DetailsScreenPresenter mDetailsScreenPresenter;
 
     private ImageView imageMovieBackground;
     private ImageView imageMovie;
@@ -24,7 +23,6 @@ public class DetailsScreenActivity extends AppCompatActivity  implements Details
     private TextView textViewYear;
     private TextView textViewLikes;
     private TextView textViewOverview;
-    private final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +30,14 @@ public class DetailsScreenActivity extends AppCompatActivity  implements Details
         setContentView(R.layout.activity_details_screen);
         mapComponents();
 
-        if(detailsScreenPresenter == null){
-            detailsScreenPresenter = new DetailsScreenPresenter();
-            detailsScreenPresenter.init(this);
+        if(mDetailsScreenPresenter == null){
+            mDetailsScreenPresenter = new DetailsScreenPresenter();
+            mDetailsScreenPresenter.init(this);
         }
         Bundle data = getIntent().getExtras();
         String movieID = data.getString("serialize_data");
-        detailsScreenPresenter.searchGenres();
-        detailsScreenPresenter.searchMovie(Long.valueOf(movieID));
+        mDetailsScreenPresenter.searchGenres();
+        mDetailsScreenPresenter.searchMovie(Long.valueOf(movieID));
 
     }
 
@@ -65,14 +63,14 @@ public class DetailsScreenActivity extends AppCompatActivity  implements Details
         String posterPath = mMovie.posterPath;
         if (TextUtils.isEmpty(posterPath) == false) {
             Glide.with(getBaseContext())
-                    .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
+                    .load(mMovieImageUrlBuilder.buildPosterUrl(posterPath))
                     .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                     .into(imageMovie);
         }
         String backdropPath = mMovie.backdropPath;
         if (TextUtils.isEmpty(backdropPath) == false) {
             Glide.with(getBaseContext())
-                    .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
+                    .load(mMovieImageUrlBuilder.buildPosterUrl(posterPath))
                     .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                     .into(imageMovieBackground);
         }
