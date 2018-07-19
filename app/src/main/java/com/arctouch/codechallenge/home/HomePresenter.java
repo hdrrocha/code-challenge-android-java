@@ -3,13 +3,12 @@ package com.arctouch.codechallenge.home;
 import com.arctouch.codechallenge.model.Movie;
 import java.util.List;
 
-public class HomePresenter implements HomeView{
-    private HomeRest homeRest;
+public class HomePresenter implements HomeView {
+    private HomeRest mHomeRest;
 
     private HomeView mRootHomeView;
 
     private static final int PAGE_START = 1;
-
     private boolean isLoading = false;
     private boolean isLastPage = false;
     private int TOTAL_PAGES = 5;
@@ -17,18 +16,15 @@ public class HomePresenter implements HomeView{
 
     public void init(HomeView aHomeView) {
         mRootHomeView = aHomeView;
-        homeRest = new HomeRest(this);
+        mHomeRest = new HomeRest(this);
     }
 
     public void refresh(HomeView aHomeView) {
         mRootHomeView = aHomeView;
     }
-    public void searchMovies(int currentPage) {
-        homeRest.callMovies(currentPage);
-    }
 
     public void searchGenres() {
-        homeRest.callGenres();
+        mHomeRest.searchGenres();
     }
 
     public void onGenresLoaded() {
@@ -38,7 +34,7 @@ public class HomePresenter implements HomeView{
     public void loadFistPage() {
         isLoading = true;
         currentPage = PAGE_START;
-        homeRest.callMovies(currentPage);
+        mHomeRest.searchMovies(currentPage);
 
     }
 
@@ -49,7 +45,7 @@ public class HomePresenter implements HomeView{
         if (currentPage <= TOTAL_PAGES) {
             mRootHomeView.homeAdapterLoadingFooter(true);
         }
-        homeRest.callMovies(currentPage);
+        mHomeRest.searchMovies(currentPage);
     }
 
     public void returnApi(List<Movie> aMovieList) {
@@ -64,7 +60,6 @@ public class HomePresenter implements HomeView{
 
     @Override
     public void loadMovies(List<Movie> mList) {
-
     }
 
     @Override
@@ -79,7 +74,6 @@ public class HomePresenter implements HomeView{
 
     @Override
     public void homeAdapterLoadingFooter(boolean aShow) {
-
     }
 
     public boolean isLastPage() {
@@ -88,10 +82,6 @@ public class HomePresenter implements HomeView{
 
     public int getTotalPages() {
         return TOTAL_PAGES;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
     }
 
     public boolean isLoading() {
