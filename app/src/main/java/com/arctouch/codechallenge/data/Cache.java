@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.data;
 
 import com.arctouch.codechallenge.model.Genre;
+import com.arctouch.codechallenge.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,4 +18,16 @@ public class Cache {
         Cache.genres.clear();
         Cache.genres.addAll(genres);
     }
+
+    private static List<Movie> movies = new ArrayList<>();
+
+    public static List<Movie> getMovies() {
+        return movies;
+    }
+
+    public static void setMovies(List<Movie> movies) {
+        Cache.movies.clear();
+        Cache.movies.addAll(movies);
+    }
+
 }

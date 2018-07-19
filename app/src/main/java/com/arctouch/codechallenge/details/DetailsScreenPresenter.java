@@ -3,7 +3,7 @@ package com.arctouch.codechallenge.details;
 import com.arctouch.codechallenge.model.Movie;
 
 
-public class DetailsScreenPresenter implements DetailsScreenView {
+public class DetailsScreenPresenter {
 
     private DetailsScreenRest mMovieRest;
     private DetailsScreenView mRootDetailsCreenView;
@@ -15,14 +15,14 @@ public class DetailsScreenPresenter implements DetailsScreenView {
 
 
     public void searchMovie(Long movieID) {
-        mMovieRest.callMovie(movieID);
+        mMovieRest.searchMovie(movieID);
     }
 
     public void searchGenres() {
-        mMovieRest.callGenres();
+        mMovieRest.searchGenres();
     }
 
-    @Override
+
     public void loadMovie(Movie mMovie) {
         mRootDetailsCreenView.loadMovie(mMovie);
     }

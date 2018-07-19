@@ -1,9 +1,10 @@
 package com.arctouch.codechallenge.home;
 
+import com.arctouch.codechallenge.data.Cache;
 import com.arctouch.codechallenge.model.Movie;
 import java.util.List;
 
-public class HomePresenter implements HomeView {
+public class HomePresenter {
 
     private HomeRest mHomeRest;
 
@@ -50,31 +51,14 @@ public class HomePresenter implements HomeView {
     }
 
     public void returnApi(List<Movie> aMovieList) {
-        mRootHomeView.loadMovies(aMovieList);
+        Cache.setMovies(aMovieList);
+        mRootHomeView.loadMovies(Cache.getMovies());
     }
 
     public void restFinish() {
         isLoading = false;
         mRootHomeView.showLoading(false);
 
-    }
-
-    @Override
-    public void loadMovies(List<Movie> mList) {
-    }
-
-    @Override
-    public void onMovieClick(Movie mMovie) {
-
-    }
-
-    @Override
-    public void showLoading(boolean aShow) {
-
-    }
-
-    @Override
-    public void homeAdapterLoadingFooter(boolean aShow) {
     }
 
     public boolean isLastPage() {
