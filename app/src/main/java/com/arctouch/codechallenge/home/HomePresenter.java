@@ -4,6 +4,7 @@ import com.arctouch.codechallenge.model.Movie;
 import java.util.List;
 
 public class HomePresenter implements HomeView {
+
     private HomeRest mHomeRest;
 
     private HomeView mRootHomeView;
