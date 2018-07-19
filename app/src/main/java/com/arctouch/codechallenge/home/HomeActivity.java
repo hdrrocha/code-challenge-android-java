@@ -22,18 +22,18 @@ import com.arctouch.codechallenge.util.RecyclerItemClickListener;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements HomeView{
-    HomePresenter homePresenter;
+    HomePresenter mHomePresenter;
 
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
 
-    private RecyclerView recyclerView;
-    private HomeAdapter homeAdapter;
-    private ProgressBar progressBar;
+    private RecyclerView mRecyclerView;
+    private HomeAdapter mHomeAdapter;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onStart() {
         super.onStart();
-        homePresenter.searchGenres();
+        mHomePresenter.searchGenres();
     }
 
 
@@ -41,73 +41,72 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
-        homeAdapter = new HomeAdapter(getApplicationContext());
+        mHomeAdapter = new HomeAdapter(getApplicationContext());
         mapComponents();
         mappingComponentsActions();
-        if(homeAdapter == null){
-            homeAdapter = new HomeAdapter(this);
-            this.recyclerView.setAdapter(homeAdapter);
+        if(mHomeAdapter == null){
+            mHomeAdapter = new HomeAdapter(this);
+            this.mRecyclerView.setAdapter(mHomeAdapter);
         }
-        if(homePresenter == null){
-            homePresenter = new HomePresenter();
-            homePresenter.init(this);
+        if(mHomePresenter == null){
+            mHomePresenter = new HomePresenter();
+            mHomePresenter.init(this);
         }else{
-            homePresenter.refresh(this);
+            mHomePresenter.refresh(this);
         }
     }
 
     public void mapComponents() {
 
-        this.recyclerView = findViewById(R.id.recyclerView);
-        this.progressBar = findViewById(R.id.progressBar);
+        this.mRecyclerView = findViewById(R.id.recyclerView);
+        this.mProgressBar = findViewById(R.id.progressBar);
 
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        this.recyclerView.setLayoutManager(linearLayoutManager);
-        this.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mLinearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        this.mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        this.mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        this.recyclerView.setAdapter(homeAdapter);
+        this.mRecyclerView.setAdapter(mHomeAdapter);
 
     }
 
     public void mappingComponentsActions() {
-        this.recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+        this.mRecyclerView.addOnScrollListener(new PaginationScrollListener(mLinearLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        homePresenter.loadNextPage();
+                        mHomePresenter.loadNextPage();
                     }
                 }, 1000);
             }
 
             @Override
             public int getTotalPageCount() {
-                return homePresenter.getTotalPages();
+                return mHomePresenter.getTotalPages();
             }
 
             @Override
             public boolean isLastPage() {
-                return homePresenter.isLastPage();
+                return mHomePresenter.isLastPage();
             }
 
             @Override
             public boolean isLoading() {
-                return homePresenter.isLoading();
+                return mHomePresenter.isLoading();
             }
         });
 
-        this.recyclerView.addOnItemTouchListener(
+        this.mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getApplicationContext(),
-                        this.recyclerView,
+                        this.mRecyclerView,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Movie movie;
-                                movie = homeAdapter.getMoviePosition(position);
+                                movie = mHomeAdapter.getMoviePosition(position);
                                 onMovieClick(movie);
-
                             }
 
                             @Override
@@ -135,21 +134,21 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
 
     @Override
     public void showLoading(boolean aShow) {
-        this.progressBar.setVisibility(View.GONE);
+        this.mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void homeAdapterLoadingFooter(boolean aShow) {
         if (aShow == true) {
-            homeAdapter.addLoadingFooter();
+            mHomeAdapter.addLoadingFooter();
         }else{
-            homeAdapter.removeLoadingFooter();
+            mHomeAdapter.removeLoadingFooter();
         }
     }
 
     @Override
     public void loadMovies(List<Movie> mList) {
-        homeAdapter.addAll(mList);
-        homeAdapter.notifyDataSetChanged();
+        mHomeAdapter.addAll(mList);
+        mHomeAdapter.notifyDataSetChanged();
     }
 }

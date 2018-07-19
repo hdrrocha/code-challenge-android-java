@@ -24,31 +24,22 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-    private Context context;
-    private boolean isLoadingAdded = false;
 
-    private List<Movie> movies;
+    private Context mContext;
+    private boolean isLoadingAdded = false;
+    private List<Movie> mMoviesList;
 
     public HomeAdapter(Context context) {
-        this.context = context;
-        this.movies = new ArrayList<>();
-    }
-
-    public List<Movie> getMovies() {
-        return this.movies;
+        this.mContext = context;
+        this.mMoviesList = new ArrayList<>();
     }
 
     public Movie getMoviePosition(int position)  {
-        return  this.movies.get(position);
+        return this.mMoviesList.get(position);
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    protected class LoadingVH extends RecyclerView.ViewHolder {
-
-        public LoadingVH(View itemView) {
+    protected class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public LoadingViewHolder(View itemView) {
             super(itemView);
         }
     }
@@ -64,7 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case LOADING:
                 View v2 = inflater.inflate(R.layout.item_progress, parent, false);
-                viewHolder = new LoadingVH(v2);
+                viewHolder = new LoadingViewHolder(v2);
                 break;
         }
 
@@ -81,7 +72,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Movie result = this.movies.get(position);
+        Movie result = this.mMoviesList.get(position);
 
         final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
 
@@ -107,7 +98,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 String posterPath = result.posterPath;
                 if (TextUtils.isEmpty(posterPath) == false) {
-                    Glide.with(context)
+                    Glide.with(mContext)
                             .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
                             .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                             .into(movieViewHolder.posterImageView);
@@ -131,18 +122,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return mMoviesList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == this.movies.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == this.mMoviesList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
-//   Helpers
+// Helpers
     public void add(Movie r) {
-        this.movies.add(r);
-        notifyItemInserted(this.movies.size() - 1);
+        this.mMoviesList.add(r);
+        notifyItemInserted(this.mMoviesList.size() - 1);
     }
 
     public void addAll(List<Movie> moveResults) {
@@ -152,9 +143,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void remove(Movie r) {
-        int position = this.movies.indexOf(r);
+        int position = this.mMoviesList.indexOf(r);
         if (position > -1) {
-            this.movies.remove(position);
+            this.mMoviesList.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -166,10 +157,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public boolean isEmpty() {
-        return getItemCount() == 0;
-    }
-
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Movie());
@@ -178,21 +165,20 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = this.movies.size() - 1;
+        int position = this.mMoviesList.size() - 1;
         Movie result = getItem(position);
 
         if (result != null) {
-            this.movies.remove(position);
+            this.mMoviesList.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     public Movie getItem(int position) {
-        return this.movies.get(position);
+        return this.mMoviesList.get(position);
     }
 
-
-//   View Holders
+//View Holders
 
     protected class MovieViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleTextView;

@@ -17,7 +17,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class HomeRest {
     private final HomePresenter mHomePresenter;
-    private List<Movie> listMovie = new ArrayList<>();
+    private List<Movie> mListMovie = new ArrayList<>();
 
     private final TmdbApi api = new Retrofit.Builder()
             .baseUrl(TmdbApi.URL)
@@ -31,12 +31,12 @@ public class HomeRest {
         mHomePresenter = aHomePresenter;
     }
 
-    public void callMovies(int currentPage) {
+    public void searchMovies(int currentPage) {
         api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, (long) currentPage, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    listMovie.addAll(response.results);
+                    mListMovie.addAll(response.results);
                     for (Movie movie : response.results) {
                         movie.genres = new ArrayList<>();
                         for (Genre genre : Cache.getGenres()) {
@@ -51,7 +51,7 @@ public class HomeRest {
                 });
     }
 
-    public void callGenres() {
+    public void searchGenres() {
         api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
