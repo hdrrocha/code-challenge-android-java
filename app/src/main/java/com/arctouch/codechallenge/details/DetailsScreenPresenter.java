@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge.details;
 
+import android.support.annotation.NonNull;
+
 import com.arctouch.codechallenge.model.Movie;
 
 
@@ -12,6 +14,11 @@ public class DetailsScreenPresenter {
         mRootDetailsCreenView = aDetailsScreenView;
         mMovieRest = new DetailsScreenRest(this);
     }
+
+//    public DetailsScreenPresenter(@NonNull final DetailsScreenView viewContract) {
+//        this.mRootDetailsCreenView = viewContract;
+////        this.mMovieRest = repository;
+//    }
 
 
     public void searchMovie(Long movieID) {
