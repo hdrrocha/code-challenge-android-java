@@ -1,59 +1,38 @@
 package com.arctouch.codechallenge;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Adapter;
 
 import com.arctouch.codechallenge.home.HomeActivity;
 import com.arctouch.codechallenge.home.HomeAdapter;
-import com.arctouch.codechallenge.model.Genre;
 import com.arctouch.codechallenge.model.Movie;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-public class HomeTest {
+public class HomeAdapterTest {
 
-    List<Movie> movies  = new ArrayList<>();
+    List<Movie> movies = new ArrayList<>();
 
-    @Mock
-    Context context;
     @InjectMocks
     private HomeActivity mHomeActivity;
     RecyclerView recyclerView;
-    Application app;
 
-    Activity activity;
     @Before
     public void setUp() {
         // ==== get actvitiv ===
-        activity = mock(HomeActivity.class);
-        app = mock(Application.class);
-
+        mHomeActivity = mock(HomeActivity.class);
         MockitoAnnotations.initMocks(this);
         recyclerView = Mockito.mock(RecyclerView.class);
         MockitoAnnotations.initMocks(this);
-        mHomeActivity = mock(HomeActivity.class);
 
         //==== Configure some movies to add in list====
 
@@ -63,17 +42,7 @@ public class HomeTest {
         movies.add(movie1);
         Movie movie2 = new Movie(2, "unit test 2", "test", null, null, "test", "test", "test");
         movies.add(movie2);
-//        movies.clear();
-    }
 
-    @Test
-    public void testActivity() {
-        when(activity.getApplication()).thenReturn(app);
-
-        assertThat(app, is(equalTo(activity.getApplication())));
-
-        verify(activity).getApplication();
-        verifyNoMoreInteractions(activity);
     }
 
     @Test
@@ -83,8 +52,9 @@ public class HomeTest {
         adapter.addAll(movies);
         recyclerView.setAdapter(adapter);
 
-        boolean result  = adapter.isEmpty();
-        System.out.println("result  = adapter.isEmpty(): " +result);
+        boolean result = adapter.isEmpty();
+        System.out.println("result = adapter.isEmpty(): " +result);
+
         Assert.assertThat(result, is(false));
     }
 
@@ -94,7 +64,8 @@ public class HomeTest {
         adapter.addAll(movies);
         recyclerView.setAdapter(adapter);
 
-        boolean result  = adapter.isEmpty();
+        boolean result = adapter.isEmpty();
+
         Assert.assertThat(result, is(false));
     }
 
