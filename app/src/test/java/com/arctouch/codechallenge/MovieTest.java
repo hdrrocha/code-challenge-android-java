@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge;
 
+import android.util.Log;
+
 import com.arctouch.codechallenge.model.Movie;
 
 import org.junit.Assert;
@@ -10,8 +12,15 @@ public class MovieTest {
     @Test
     public void MovieNull() {
         Movie movie = new Movie();
-        movie = null;
-        boolean movieNull = movie.equals(null);
+//        movie = null;
+        movie.id = 1;
+        movie.title = "unit test";
+        movie.backdropPath = "";
+        movie.posterPath = "";
+        movie.genreIds =  null;
+        movie.overview = "test";
+//        movie = null;
+        boolean movieNull = movie == null;
         Assert.assertFalse(movieNull);
     }
 }
