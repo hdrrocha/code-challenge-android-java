@@ -34,24 +34,40 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 public class HomeTest {
 
+    List<Movie> movies  = new ArrayList<>();
+
     @Mock
     Context context;
     @InjectMocks
     private HomeActivity mHomeActivity;
     RecyclerView recyclerView;
+    Application app;
 
+    Activity activity;
     @Before
     public void setUp() {
+        // ==== get actvitiv ===
+        activity = mock(HomeActivity.class);
+        app = mock(Application.class);
+
         MockitoAnnotations.initMocks(this);
         recyclerView = Mockito.mock(RecyclerView.class);
         MockitoAnnotations.initMocks(this);
         mHomeActivity = mock(HomeActivity.class);
+
+        //==== Configure some movies to add in list====
+
+        Movie movie0 = new Movie(0, "unit test 0", "test", null, null, "test", "test", "test");
+        movies.add(movie0);
+        Movie movie1 = new Movie(1, "unit test 1", "test", null, null, "test", "test", "test");
+        movies.add(movie1);
+        Movie movie2 = new Movie(2, "unit test 2", "test", null, null, "test", "test", "test");
+        movies.add(movie2);
+//        movies.clear();
     }
 
     @Test
-    public void mockFinalMethod() {
-        Activity activity = mock(HomeActivity.class);
-        Application app = mock(Application.class);
+    public void testActivity() {
         when(activity.getApplication()).thenReturn(app);
 
         assertThat(app, is(equalTo(activity.getApplication())));
@@ -61,38 +77,26 @@ public class HomeTest {
     }
 
     @Test
-    public void mockFinalClass() {
-////        Activity activity = mock(HomeActivity.class);
-//        RecyclerView.Adapter homeAdapter = new HomeAdapter(mHomeActivity.getApplicationContext());
+    public void testAdapterIsEmpty() {
         HomeAdapter adapter = Mockito.mock(HomeAdapter.class);
-        List<Movie> movies  = new ArrayList<>();
-        Movie movie1 = new Movie();
-        movie1.id = 1;
-        movie1.title = "unit test";
-        movie1.backdropPath = "";
-        movie1.posterPath = "";
-        movie1.genreIds =  null;
-        movie1.overview = "test";
-        movies.add(movie1);
-        Movie movie2 = new Movie();
-        movie2.id = 2;
-        movie2.title = "unit test";
-        movie2.backdropPath = "";
-        movie2.posterPath = "";
-        movie2.genreIds =  null;
-        movie2.overview = "test";
-
-        movies.add(movie2);
-        movies.clear();
+        movies = null;
         adapter.addAll(movies);
         recyclerView.setAdapter(adapter);
-        // simulate first item was clicked
-//        recyclerView.getChildAt(1).performClick();
-        //Check if method was invoked with our object
-        boolean result  = adapter.isEmpty(); //Mockito.verify(adapter).isEmpty();
-        Assert.assertFalse(result);
+
+        boolean result  = adapter.isEmpty();
+        System.out.println("result  = adapter.isEmpty(): " +result);
+        Assert.assertThat(result, is(false));
     }
 
+    @Test
+    public void testAdapterNotIsEmpty() {
+        HomeAdapter adapter = Mockito.mock(HomeAdapter.class);
+        adapter.addAll(movies);
+        recyclerView.setAdapter(adapter);
+
+        boolean result  = adapter.isEmpty();
+        Assert.assertThat(result, is(false));
+    }
 
 
 }

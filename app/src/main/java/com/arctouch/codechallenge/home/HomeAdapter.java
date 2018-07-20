@@ -200,8 +200,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public boolean isEmpty() {
-//        return this.mMoviesList.isEmpty();
-        return true;
+        return this.mMoviesList.isEmpty();
     }
 
 }
